@@ -192,7 +192,7 @@ export function Hero() {
 
       {/* Content */}
       <div className="relative z-10 flex min-h-[100svh] flex-1 flex-col">
-        <div className="shell flex flex-1 flex-col items-center justify-center pt-20 pb-6">
+        <div className="shell flex flex-1 flex-col items-center justify-center pt-28 pb-6 sm:pt-24">
           <LogoLockup />
 
           <div className="mt-7 flex flex-col items-center gap-3 sm:mt-9 sm:flex-row sm:gap-4">

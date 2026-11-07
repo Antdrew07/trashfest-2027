@@ -241,7 +241,13 @@ h1, h2, h3, h4 {
  * The event strip is sticky, so anchored sections must reserve room for it
  * or a jump from the nav lands with the heading hidden behind the bar.
  */
-section[id] { scroll-margin-top: 5.5rem; }
+:root { --nav-h: 4.25rem; }
+
+/*
+ * The nav is fixed and the event strip sticks beneath it, so anchored
+ * sections must clear both or a nav jump lands with the heading hidden.
+ */
+section[id] { scroll-margin-top: 9rem; }
 
 .section-y { padding-block: 6rem; }
 @media (min-width: 768px) {

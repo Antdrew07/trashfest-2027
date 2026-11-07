@@ -32,7 +32,7 @@ export function EventStrip() {
   }, [target]);
 
   return (
-    <div className="sticky top-0 z-40 border-y border-gold/25 bg-char/95 backdrop-blur-md">
+    <div className="sticky top-[var(--nav-h)] z-40 border-y border-gold/25 bg-char/95 backdrop-blur-md">
       <div className="shell flex flex-col items-center gap-3 py-3 lg:flex-row lg:justify-between lg:gap-6 lg:py-2.5">
         {/* Where and when */}
         <p className="font-[family-name:var(--font-barlow)] flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-center text-[0.7rem] font-bold tracking-[0.1em] text-bone uppercase sm:text-xs lg:text-left">
@@ -45,7 +45,7 @@ export function EventStrip() {
           </span>
         </p>
 
-        <div className="flex items-center gap-4 sm:gap-6">
+        <div className="flex items-center">
           {/* Countdown */}
           <div className="flex items-center gap-2 sm:gap-3" aria-live="off">
             {(
@@ -77,9 +77,6 @@ export function EventStrip() {
             </span>
           </div>
 
-          <a href="#tickets" className="btn btn-primary px-4 py-2.5 text-xs sm:px-6">
-            Get Tickets
-          </a>
         </div>
       </div>
     </div>

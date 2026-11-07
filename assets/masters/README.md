@@ -21,3 +21,29 @@ performance of 90 or better. Regenerate derivatives with:
 
     convert assets/masters/card-<name>-4k.webp -resize 1600x \
       -quality 88 -define webp:method=6 public/photo/card-<name>.webp
+
+## aerial-town-square-master.mp4
+
+The ungraded 8 s, 1280×720 veo-3.1-fast render used for the Venue section
+(`#venue`). Kept here because re-running the model costs money and will not
+return this same clip.
+
+`public/video/aerial.mp4` is derived from it: audio stripped, and the clip
+concatenated with a reversed copy so the forward drone push wraps without a
+visible jump (a hard cut back to frame 1 is obvious on a 16 s loop).
+
+```bash
+ffmpeg -i aerial-town-square-master.mp4 -an \
+  -filter_complex "[0:v]split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1[out]" \
+  -map "[out]" -c:v libx264 -preset slow -crf 32 -pix_fmt yuv420p \
+  -movflags +faststart -r 24 ../../public/video/aerial.mp4
+
+# Poster must be the loop's FIRST frame, or the still-to-video hand-off jumps.
+ffmpeg -i ../../public/video/aerial.mp4 -frames:v 1 /tmp/first.png
+convert /tmp/first.png -quality 82 ../../public/photo/aerial-poster.webp
+```
+
+**Not Lockhart.** This is a generated composite of a generic Texas county-seat
+square, not the Caldwell County Courthouse. It must not be captioned as
+Lockhart; replace it with the organiser's own drone footage or a licensed
+clip before launch.
