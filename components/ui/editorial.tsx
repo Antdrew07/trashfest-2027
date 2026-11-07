@@ -173,3 +173,83 @@ export function PhotoTile({
     </figure>
   );
 }
+
+/**
+ * Photo-led stat card: the image IS the card, with the number reversed out
+ * over a scrim. Replaces the pattern of floating a small thumbnail on a
+ * panel, which can never look like anything but a thumbnail on a panel.
+ */
+export function PhotoStatCard({
+  src,
+  label,
+  value,
+  sub,
+  accent = "var(--tx-red)",
+  ratio = "4 / 5",
+  priority = false,
+}: {
+  src: string;
+  label: string;
+  value?: string;
+  sub?: string;
+  accent?: string;
+  ratio?: string;
+  priority?: boolean;
+}) {
+  return (
+    <figure
+      className="group relative overflow-hidden rounded-[4px] border"
+      style={{
+        aspectRatio: ratio,
+        borderColor: `color-mix(in srgb, ${accent} 42%, transparent)`,
+      }}
+    >
+      <Image
+        src={src}
+        alt=""
+        fill
+        priority={priority}
+        sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+      />
+
+      {/* Scrim: readable type without flattening the photograph. */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(11,9,8,0.55) 0%, rgba(11,9,8,0.08) 32%, rgba(11,9,8,0.82) 72%, rgba(11,9,8,0.97) 100%)",
+        }}
+      />
+      <div
+        className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{ boxShadow: `inset 0 0 90px color-mix(in srgb, ${accent} 55%, transparent)` }}
+      />
+
+      <figcaption className="absolute inset-x-0 top-0 p-4">
+        <span
+          className="font-[family-name:var(--font-barlow)] text-[0.68rem] font-extrabold tracking-[0.16em] uppercase drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]"
+          style={{ color: accent === "var(--gold)" ? "var(--gold-hi)" : "var(--bone)" }}
+        >
+          {label}
+        </span>
+      </figcaption>
+
+      <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+        {value ? (
+          <p
+            className="font-[family-name:var(--font-bungee)] text-[clamp(1.9rem,4.4vw,3rem)] leading-none drop-shadow-[0_3px_14px_rgba(0,0,0,0.95)]"
+            style={{ color: accent }}
+          >
+            {value}
+          </p>
+        ) : null}
+        {sub ? (
+          <p className="mt-2 text-sm leading-snug text-bone/75 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
+            {sub}
+          </p>
+        ) : null}
+      </div>
+    </figure>
+  );
+}

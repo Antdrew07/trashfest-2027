@@ -1,29 +1,30 @@
-import Image from "next/image";
 import { StarIcon } from "@/components/ui/brand";
 import { GrainOverlay, SmokeOverlay, StarDivider } from "@/components/ui/atmosphere";
+import { PhotoStatCard } from "@/components/ui/editorial";
 import { COOKOFF, EVENT } from "@/content/event";
 
 const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 
-const JACKPOT_ART = {
-  "bloody-mary": { src: "/brand/photo-bloodymary.webp", w: 126, h: 126 },
-  dessert: { src: "/brand/photo-dessert.webp", w: 142, h: 112 },
-} as const;
+/** Category photography, replacing the flat 88px silhouettes. */
+const CATEGORY_ART: Record<string, string> = {
+  brisket: "/photo/card-brisket.webp",
+  "pork-ribs": "/photo/card-ribs.webp",
+  chicken: "/photo/card-chicken.webp",
+};
+
+const JACKPOT_ART: Record<string, string> = {
+  "bloody-mary": "/photo/card-bloodymary.webp",
+  dessert: "/photo/card-dessert.webp",
+};
 
 /**
- * The flyer marks the categories with livestock silhouettes - cow, pig,
- * chicken - not cuts of meat. These are keyed straight out of the key art
- * (flat red on wood separates cleanly on R-minus-G).
- */
-const CATEGORY_ART = {
-  brisket: { src: "/brand/sil-cow.webp", w: 88, h: 46 },
-  "pork-ribs": { src: "/brand/sil-pig.webp", w: 88, h: 44 },
-  chicken: { src: "/brand/sil-chicken.webp", w: 53, h: 50 },
-} as const;
-
-/**
- * The cookoff (§6.4). The wood-plank info grid mirrors the flyer's six boxes,
- * followed by the two-day turn-in timeline.
+ * The cookoff (§6.4).
+ *
+ * Restructured so the numbers and the photography stop competing: two
+ * headline figures carry the money, then the three judged categories and the
+ * three jackpot/award classes are photographic cards. The earlier version
+ * floated small thumbnails on wood panels, which can only ever read as small
+ * thumbnails on wood panels.
  */
 export function Cookoff() {
   return (
@@ -37,11 +38,11 @@ export function Cookoff() {
             "linear-gradient(180deg, #1a1512 0%, #0b0908 100%)",
         }}
       />
-      <SmokeOverlay opacity={0.12} />
+      <SmokeOverlay opacity={0.1} />
       <GrainOverlay />
 
       <div className="shell section-y relative z-10">
-        {/* Heading + IBCA badge */}
+        {/* Heading */}
         <div className="flex flex-col items-center text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-char/60 px-4 py-1.5">
             <StarIcon className="h-3 w-3 fill-gold" />
@@ -65,90 +66,80 @@ export function Cookoff() {
           <p className="script mt-6 text-2xl text-ember sm:text-3xl">{EVENT.tagline}</p>
         </div>
 
-        <StarDivider className="my-12" />
-
-        {/* Flyer's six info boxes */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <PlankCard label="Entry Fee" accent="var(--tx-red)">
-            <p className="font-[family-name:var(--font-bungee)] text-5xl text-tx-red">
+        {/* The money, as two headline figures */}
+        <div className="mt-14 grid gap-4 sm:grid-cols-2">
+          <div className="panel-wood rivets flex flex-col items-center rounded-[4px] border border-tx-red/40 px-6 py-10 text-center">
+            <p className="eyebrow text-bone/70">Entry Fee</p>
+            <p className="font-[family-name:var(--font-bungee)] mt-4 text-[clamp(3.2rem,9vw,5.5rem)] leading-none text-tx-red">
               {usd(COOKOFF.entryFeeUsd)}
             </p>
-            <p className="eyebrow mt-2 text-bone/80">Per Team</p>
+            <p className="eyebrow mt-3 text-bone">Per Team</p>
             <p className="mt-2 text-sm text-muted">{COOKOFF.entryFeeNote}</p>
-          </PlankCard>
+          </div>
 
-          <PlankCard label="Payout" accent="var(--gold)">
-            <p className="font-[family-name:var(--font-bungee)] text-5xl text-gold-hi">
+          <div className="panel-wood rivets flex flex-col items-center rounded-[4px] border border-gold/40 px-6 py-10 text-center">
+            <p className="eyebrow text-bone/70">Payout</p>
+            <p className="font-[family-name:var(--font-bungee)] mt-4 text-[clamp(3.2rem,9vw,5.5rem)] leading-none text-gold-hi">
               {COOKOFF.payoutPercent}%
             </p>
-            <p className="eyebrow mt-2 text-bone/80">Of Entries</p>
+            <p className="eyebrow mt-3 text-bone">Of Entries</p>
             <p className="mt-2 text-sm text-muted">
-              Estimated {usd(COOKOFF.estimatedPotUsd.low)}–{usd(COOKOFF.estimatedPotUsd.high)} pot,
-              paying {COOKOFF.paidPlaces.length} places.
+              Est. {usd(COOKOFF.estimatedPotUsd.low)}–{usd(COOKOFF.estimatedPotUsd.high)} pot,
+              paying {COOKOFF.paidPlaces.length} places
             </p>
-          </PlankCard>
-
-          <PlankCard label="BBQ Categories" accent="var(--tx-red)">
-            <ul className="flex items-end justify-center gap-6">
-              {COOKOFF.categories.map((c) => {
-                const art = CATEGORY_ART[c.id];
-                return (
-                  <li key={c.id} className="flex flex-col items-center gap-2">
-                    <span className="flex h-16 items-end">
-                      <Image
-                        src={art.src}
-                        alt=""
-                        aria-hidden="true"
-                        width={art.w}
-                        height={art.h}
-                        className="max-h-14 w-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
-                      />
-                    </span>
-                    <span className="font-[family-name:var(--font-barlow)] text-[0.68rem] font-bold tracking-[0.1em] text-bone uppercase">
-                      {c.name}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </PlankCard>
-
-          {COOKOFF.jackpots.map((j) => (
-            <PlankCard key={j.id} label={j.name} accent="var(--ember)">
-              <Image
-                src={JACKPOT_ART[j.id].src}
-                alt=""
-                aria-hidden="true"
-                width={JACKPOT_ART[j.id].w}
-                height={JACKPOT_ART[j.id].h}
-                className="mb-1 h-20 w-auto drop-shadow-[0_6px_16px_rgba(0,0,0,0.7)]"
-              />
-              <p className="font-[family-name:var(--font-bungee)] text-5xl text-tx-red">
-                {usd(j.feeUsd)}
-              </p>
-              <p className="eyebrow mt-1 text-bone/80">Each</p>
-              <p className="mt-2 text-sm text-muted">Separate jackpot · {j.judgedOn}</p>
-            </PlankCard>
-          ))}
-
-          <PlankCard label={COOKOFF.showmanship.name} accent="var(--tx-navy)">
-            <Image
-              src="/brand/icon-trophy.webp"
-              alt=""
-              aria-hidden="true"
-              width={78}
-              height={84}
-              className="h-24 w-auto drop-shadow-[0_6px_18px_rgba(212,162,76,0.45)]"
-            />
-            <p className="eyebrow mt-3 text-bone/80">{COOKOFF.showmanship.note}</p>
-            <p className="mt-2 text-sm text-muted">
-              Judged on how your cook site shows up and shows off.
-            </p>
-          </PlankCard>
+          </div>
         </div>
 
-        {/* Turn-in timeline */}
+        {/* Judged categories */}
         <div className="mt-20">
+          <div className="flex flex-col items-center text-center">
+            <p className="eyebrow text-gold">Judged Categories</p>
+            <h3 className="headline mt-2 text-h3 text-bone">Three meats. One crown.</h3>
+          </div>
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {COOKOFF.categories.map((c) => (
+              <PhotoStatCard
+                key={c.id}
+                src={CATEGORY_ART[c.id]}
+                label={c.name}
+                value={c.turnIn}
+                sub="Turn-in time"
+                accent="var(--tx-red)"
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Jackpots and the showmanship award */}
+        <div className="mt-20">
+          <div className="flex flex-col items-center text-center">
+            <p className="eyebrow text-gold">Jackpots &amp; Awards</p>
+            <h3 className="headline mt-2 text-h3 text-bone">Separate pots, separate glory.</h3>
+          </div>
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {COOKOFF.jackpots.map((j) => (
+              <PhotoStatCard
+                key={j.id}
+                src={JACKPOT_ART[j.id]}
+                label={j.name}
+                value={usd(j.feeUsd)}
+                sub={`Separate jackpot · ${j.judgedOn}`}
+                accent="var(--ember)"
+              />
+            ))}
+            <PhotoStatCard
+              src="/photo/card-showmanship.webp"
+              label={COOKOFF.showmanship.name}
+              sub={`${COOKOFF.showmanship.note} — judged on how your cook site shows up and shows off.`}
+              accent="var(--gold)"
+            />
+          </div>
+        </div>
+
+        <StarDivider className="my-20" />
+
+        {/* Turn-in timeline */}
+        <div>
           <h3 className="headline text-center text-h3 text-bone">Cookoff Schedule</h3>
           <p className="mt-2 text-center text-sm text-muted">
             Head judge: {COOKOFF.headJudge.firstName}
@@ -206,25 +197,5 @@ export function Cookoff() {
         </div>
       </div>
     </section>
-  );
-}
-
-function PlankCard({
-  label,
-  accent,
-  children,
-}: {
-  label: string;
-  accent: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className="panel-wood rivets flex flex-col items-center rounded-[4px] border p-6 text-center"
-      style={{ borderColor: `color-mix(in srgb, ${accent} 40%, transparent)` }}
-    >
-      <p className="eyebrow mb-4 text-bone/70">{label}</p>
-      <div className="flex flex-1 flex-col items-center justify-center">{children}</div>
-    </div>
   );
 }
