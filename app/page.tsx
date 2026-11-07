@@ -3,6 +3,7 @@ import { EventStrip } from "@/components/sections/event-strip";
 import { Experience } from "@/components/sections/experience";
 import { Headliner } from "@/components/sections/headliner";
 import { Hero } from "@/components/sections/hero";
+import { Sponsors } from "@/components/sections/sponsors";
 import { SiteNav } from "@/components/sections/site-nav";
 import { Venue } from "@/components/sections/venue";
 import { BandStatement, PhotoBand } from "@/components/ui/editorial";
@@ -40,6 +41,7 @@ export default function HomePage() {
         <Cookoff />
         <Experience />
         <Venue />
+        <Sponsors />
       </main>
     </>
   );
