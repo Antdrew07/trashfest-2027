@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+  <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.008 0.014" numOctaves="5" seed="21" result="t"/>
+    <feDisplacementMap in="SourceGraphic" in2="t" scale="90" xChannelSelector="R" yChannelSelector="G"/>
+    <feGaussianBlur stdDeviation="22"/>
+  </filter>
+  <g filter="url(#s)" opacity="0.5">
+    <ellipse cx="300" cy="330" rx="260" ry="130" fill="#9d8e82"/>
+    <ellipse cx="610" cy="280" rx="230" ry="115" fill="#b5a79a"/>
+    <ellipse cx="455" cy="400" rx="300" ry="120" fill="#8a7c71"/>
+  </g>
+</svg>

@@ -1,26 +1,274 @@
 @import "tailwindcss";
 
+/* ───────────────────────────────────────────────────────────────────────────
+   TRASH FEST 2027 — "Lone Star Smoke Show"
+   Tokens are DESIGN.md §2 verbatim. Loud. Smoky. Proud.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  --color-char: #0b0908;
+  --color-smoke: #1a1512;
+  --color-plank: #2b1d14;
+  --color-bone: #f2e6d0;
+  --color-tx-red: #bf0a30;
+  --color-tx-navy: #002868;
+  --color-ember: #ff5a1f;
+  --color-flame: #ffb23f;
+  --color-gold: #d4a24c;
+  --color-gold-hi: #f7d88a;
+  --color-muted: #a8998a;
+
+  /* Sponsor tier accents (sponsorship flyer) */
+  --color-tier-elite: #2f6bff;
+  --color-tier-diamond: #c9ced6;
+  --color-tier-platinum: #e08a2e;
+  --color-tier-silver: #b8bec6;
+  --color-tier-bronze: #b06a3b;
+
+  --font-display: var(--font-rye), ui-serif, Georgia, serif;
+  --font-headline: var(--font-bungee), ui-sans-serif, system-ui, sans-serif;
+  --font-label: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-script: var(--font-marker), ui-cursive, cursive;
+
+  --text-eyebrow: 0.875rem;
+  --text-h3: clamp(1.5rem, 2.5vw, 2.25rem);
+  --text-h2: clamp(2.25rem, 5vw, 4.5rem);
+  --text-h1: clamp(3rem, 9vw, 8.5rem);
+
+  --radius-card: 4px;
+}
+
+/* Raw custom properties (gradients can't live in @theme) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --char: #0b0908;
+  --smoke: #1a1512;
+  --plank: #2b1d14;
+  --bone: #f2e6d0;
+  --tx-red: #bf0a30;
+  --tx-navy: #002868;
+  --ember: #ff5a1f;
+  --flame: #ffb23f;
+  --gold: #d4a24c;
+  --gold-hi: #f7d88a;
+  --muted: #a8998a;
+
+  --grad-fire: radial-gradient(120% 80% at 50% 110%, #ff5a1f55 0%, #bf0a3022 35%, transparent 70%);
+  --grad-gold: linear-gradient(180deg, #f7d88a 0%, #d4a24c 45%, #8a5a1c 100%);
+  --grad-ruby: linear-gradient(180deg, #ff6b6b 0%, #bf0a30 50%, #6e0019 100%);
+  --grad-dusk: linear-gradient(180deg, #2a0e08 0%, #0b0908 60%);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ─── Base ────────────────────────────────────────────────────────────────── */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  background-color: var(--char);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--char);
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--tx-red);
+  color: var(--bone);
+}
+
+h1, h2, h3, h4 {
+  color: var(--bone);
+  text-wrap: balance;
+}
+
+/* ─── Type treatments (§3) ────────────────────────────────────────────────── */
+
+.font-display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.headline {
+  font-family: var(--font-headline);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+}
+
+.eyebrow {
+  font-family: var(--font-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: var(--text-eyebrow);
+  color: var(--gold);
+}
+
+.script { font-family: var(--font-script); }
+
+/*
+ * Weathered letterforms. The mask is a generated SVG (feTurbulence) rather
+ * than a bitmap, so it stays sharp at any size and costs about 1KB.
+ */
+.distressed {
+  -webkit-mask-image: url("/textures/grunge-mask.svg");
+  mask-image: url("/textures/grunge-mask.svg");
+  -webkit-mask-size: 600px;
+  mask-size: 600px;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  text-shadow: 0 2px 0 #000, 0 8px 30px rgba(0, 0, 0, 0.6);
+}
+
+.text-gold-grad {
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-ruby-grad {
+  background: var(--grad-ruby);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ─── Surfaces (§8) ───────────────────────────────────────────────────────── */
+
+.panel-wood {
+  background-color: var(--plank);
+  background-image: url("/textures/wood-plank.svg");
+  background-size: 420px;
+  box-shadow:
+    inset 0 1px 0 rgba(242, 230, 208, 0.08),
+    inset 0 -30px 60px rgba(0, 0, 0, 0.55),
+    0 18px 40px -20px rgba(0, 0, 0, 0.9);
+}
+
+.panel-charred {
+  background:
+    linear-gradient(180deg, rgba(42, 14, 8, 0.6) 0%, rgba(11, 9, 8, 0.9) 100%),
+    var(--smoke);
+  box-shadow:
+    inset 0 1px 0 rgba(242, 230, 208, 0.06),
+    0 18px 40px -20px rgba(0, 0, 0, 0.9);
+}
+
+/* Corner star rivets (§8) */
+.rivets { position: relative; }
+.rivets::before,
+.rivets::after {
+  content: "★";
+  position: absolute;
+  top: 8px;
+  font-size: 10px;
+  line-height: 1;
+  color: color-mix(in srgb, var(--gold) 55%, transparent);
+  pointer-events: none;
+}
+.rivets::before { left: 10px; }
+.rivets::after { right: 10px; }
+
+/* ─── Buttons (§8) ────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.9rem;
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border-radius: 3px;
+  line-height: 1;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.btn-primary {
+  background: var(--tx-red);
+  color: var(--bone);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 24px -12px rgba(191, 10, 48, 0.9);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px #ff5a1f88, 0 14px 28px -14px rgba(191, 10, 48, 0.9);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--bone);
+  border: 1px solid rgba(242, 230, 208, 0.45);
+}
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  border-color: var(--bone);
+  box-shadow: 0 0 30px #ff5a1f55;
+}
+
+/* ─── Layout helpers ──────────────────────────────────────────────────────── */
+
+.shell {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+@media (min-width: 768px) {
+  .shell { padding-inline: 32px; }
+}
+
+.section-y { padding-block: 6rem; }
+@media (min-width: 768px) {
+  .section-y { padding-block: 9rem; }
+}
+
+/* ─── Motion (§8) ─────────────────────────────────────────────────────────── */
+
+@keyframes ember-rise {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translate3d(var(--drift, 14px), -100vh, 0) scale(0.35); opacity: 0; }
+}
+
+@keyframes smoke-drift {
+  0%   { transform: translate3d(-6%, 0, 0) scale(1.1); }
+  50%  { transform: translate3d(6%, -3%, 0) scale(1.25); }
+  100% { transform: translate3d(-6%, 0, 0) scale(1.1); }
+}
+
+@keyframes crown-sway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50%      { transform: rotate(2.5deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 90, 31, 0.55); }
+  70%      { box-shadow: 0 0 0 18px rgba(255, 90, 31, 0); }
+}
+
+.animate-crown-sway {
+  animation: crown-sway 5s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+.animate-pulse-glow { animation: pulse-glow 2.4s ease-out infinite; }
+
+/* Everything calms down when the visitor asks for it (§5.9, §8). */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
