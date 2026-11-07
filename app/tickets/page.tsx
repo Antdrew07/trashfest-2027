@@ -52,7 +52,17 @@ export default function TicketsPage() {
                 } as React.CSSProperties
               }
             >
-              <h2 className="headline foil text-[clamp(1.7rem,3.5vw,2.5rem)] leading-[0.95]">
+              {/* VIP lists two perks to GA's three, so without this the
+                  card read as half-empty rather than as the better ticket. */}
+              <div className="flex min-h-[1.65rem] items-start">
+                {tier.highlight && (
+                  <span className="inline-flex rounded-full border border-gold/45 bg-gold/10 px-3 py-1 font-[family-name:var(--font-barlow)] text-[0.62rem] font-extrabold tracking-[0.16em] text-gold-hi uppercase backdrop-blur-sm">
+                    Best seat in the house
+                  </span>
+                )}
+              </div>
+
+              <h2 className="headline foil mt-3 text-[clamp(1.7rem,3.5vw,2.5rem)] leading-[0.95]">
                 {tier.name}
               </h2>
 
@@ -65,7 +75,7 @@ export default function TicketsPage() {
 
               <ul className="mt-7 flex-1 space-y-3">
                 {tier.includes.map((inc) => (
-                  <li key={inc} className="flex gap-3 text-[0.97rem] leading-relaxed text-bone/90">
+                  <li key={inc} className="flex gap-3 text-[1.05rem] leading-relaxed text-bone/90">
                     <span
                       className="mt-[0.5rem] h-1.5 w-1.5 shrink-0 rotate-45"
                       style={{ background: tier.highlight ? "var(--gold)" : "var(--tx-red)" }}

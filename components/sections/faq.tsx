@@ -62,9 +62,9 @@ function Column({ title, items }: { title: string; items: readonly FaqItem[] }) 
         {items.map((item) => (
           <details
             key={item.q}
-            className="group border-b border-gold/12 [&_summary::-webkit-details-marker]:hidden"
+            className="group border-b border-gold/12 transition-colors hover:border-gold/30 [&_summary::-webkit-details-marker]:hidden"
           >
-            <summary className="flex cursor-pointer list-none items-start gap-4 py-4 transition-colors hover:text-gold-hi">
+            <summary className="-mx-3 flex cursor-pointer list-none items-start gap-4 rounded-[3px] px-3 py-4 transition-colors hover:bg-gold/[0.04]">
               <span className="flex-1 font-[family-name:var(--font-barlow)] text-[1.02rem] font-bold text-bone group-hover:text-gold-hi">
                 {item.q}
               </span>
