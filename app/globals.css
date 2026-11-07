@@ -126,6 +126,15 @@ h1, h2, h3, h4 {
   text-shadow: 0 2px 0 #000, 0 8px 30px rgba(0, 0, 0, 0.6);
 }
 
+/*
+ * Finer grain for sub-hero headings. The 600px mask is scaled for the hero
+ * lockup; at section-heading size that same texture eats the letterforms.
+ */
+.distressed-fine {
+  -webkit-mask-size: 260px;
+  mask-size: 260px;
+}
+
 .text-gold-grad {
   background: var(--grad-gold);
   -webkit-background-clip: text;
