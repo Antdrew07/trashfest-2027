@@ -10,7 +10,7 @@ import { EVENT, FAQ, type FaqItem } from "@/content/event";
  * to drive in with an RV is better served by "not confirmed yet" than by a
  * missing question that makes them assume it is allowed.
  */
-export function Faq() {
+export function Faq({ headless = false }: { headless?: boolean } = {}) {
   const going = FAQ.filter((f) => f.group === "Going");
   const cooking = FAQ.filter((f) => f.group === "Cooking");
 
@@ -19,6 +19,7 @@ export function Faq() {
       <div className="absolute inset-0 bg-[url('/textures/noise.svg')] bg-[length:200px_200px] opacity-[0.05]" />
 
       <div className="shell section-y relative">
+        {!headless && (
         <header className="max-w-2xl">
           <p className="eyebrow flex items-center gap-2">
             <span className="text-tx-red" aria-hidden="true">★</span>
@@ -28,8 +29,9 @@ export function Faq() {
             Before you <span className="text-gold-hi">roll in.</span>
           </h2>
         </header>
+        )}
 
-        <div className="mt-12 grid gap-x-14 gap-y-12 lg:grid-cols-2">
+        <div className={`${headless ? "mt-0" : "mt-12"} grid gap-x-14 gap-y-12 lg:grid-cols-2`}>
           <Column title="Coming to the festival" items={going} />
           <Column title="Entering the cookoff" items={cooking} />
         </div>

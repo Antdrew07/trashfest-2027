@@ -293,3 +293,232 @@ section[id] { scroll-margin-top: 9rem; }
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   PREMIUM LAYER
+   Four things separate an expensive-looking card from a cheap one, and none
+   of them is "more colour":
+     1. the edge catches light instead of being a flat 1px line
+     2. metal and stone read as gradients with a specular band, not flat fill
+     3. depth comes from layered shadow plus an inner top highlight
+     4. things respond when you touch them
+   Each tier sets --edge (and the foil stops) inline; everything else is here.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* ─── Foil type ───────────────────────────────────────────────────────────── */
+
+/*
+ * Metallic lettering. The gradient carries a bright specular band that sits
+ * off-centre, which is what sells it as metal rather than a coloured word.
+ * background-clip:text needs the guard — without support the fallback colour
+ * stays visible instead of the text going invisible.
+ */
+.foil {
+  /*
+   * Defaults live in the var() fallbacks below, never as declarations here:
+   * declaring --foil-* on .foil would set them on the element itself and beat
+   * the per-tier values inherited from the card, making every tier gold.
+   */
+  color: var(--foil-base, #d4a24c);
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .foil {
+    background-image: linear-gradient(
+      100deg,
+      var(--foil-lo, #6b5422) 0%,
+      var(--foil-base, #d4a24c) 20%,
+      var(--foil-hi, #f7d88a) 36%,
+      #fffdf6 44%,
+      var(--foil-hi, #f7d88a) 52%,
+      var(--foil-base, #d4a24c) 70%,
+      var(--foil-lo, #6b5422) 100%
+    );
+    background-size: 250% 100%;
+    background-position: 20% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: background-position 0.9s cubic-bezier(0.22, 0.8, 0.3, 1);
+  }
+  .lux-card:hover .foil,
+  .foil:hover {
+    background-position: 80% 0;
+  }
+}
+
+/* ─── Lux card ────────────────────────────────────────────────────────────── */
+
+.lux-card {
+  --edge: var(--gold);
+  position: relative;
+  isolation: isolate;
+  border-radius: 5px;
+  background:
+    radial-gradient(130% 100% at 0% 0%, color-mix(in srgb, var(--edge) 10%, transparent) 0%, transparent 55%),
+    linear-gradient(170deg, rgba(42, 14, 8, 0.72) 0%, rgba(11, 9, 8, 0.96) 62%),
+    var(--smoke);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 1px 2px rgba(0, 0, 0, 0.6),
+    0 24px 50px -28px rgba(0, 0, 0, 0.95);
+  transition:
+    transform 0.4s cubic-bezier(0.22, 0.8, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+
+/*
+ * The lit edge. A masked gradient ring rather than a border, so the top-left
+ * burns bright and the bottom-right falls into shadow — a flat 1px solid
+ * border is the single biggest tell of a cheap card.
+ */
+.lux-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--edge) 92%, #fff 8%) 0%,
+    color-mix(in srgb, var(--edge) 45%, transparent) 26%,
+    color-mix(in srgb, var(--edge) 12%, transparent) 52%,
+    color-mix(in srgb, var(--edge) 34%, transparent) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* Specular sweep, parked off-canvas until hover. */
+.lux-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 36%,
+    rgba(255, 255, 255, 0.085) 46%,
+    rgba(255, 255, 255, 0.025) 54%,
+    transparent 64%
+  );
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+
+.lux-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.6),
+    0 30px 60px -26px rgba(0, 0, 0, 0.95),
+    0 0 46px -14px color-mix(in srgb, var(--edge) 55%, transparent);
+}
+
+.lux-card:hover::after {
+  transform: translateX(130%);
+  transition: transform 1.05s cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+
+/* ─── Tier emblem ─────────────────────────────────────────────────────────── */
+
+/*
+ * The emblem renders are lit on pure black, so `screen` drops the background
+ * out exactly — no cut-out, no matte line, and it composites correctly over
+ * the card's own gradient.
+ */
+.emblem {
+  mix-blend-mode: screen;
+  filter: var(--emblem-tint, none) saturate(1.05) contrast(1.04);
+  transition:
+    transform 0.6s cubic-bezier(0.22, 0.8, 0.3, 1),
+    filter 0.6s ease;
+}
+
+.lux-card:hover .emblem {
+  transform: scale(1.07) rotate(-2deg);
+  filter: var(--emblem-tint, none) saturate(1.18) contrast(1.1) brightness(1.12);
+}
+
+/* Glow pooled under the emblem, tinted to the tier. */
+.emblem-glow {
+  background: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in srgb, var(--edge) 42%, transparent) 0%,
+    color-mix(in srgb, var(--edge) 12%, transparent) 38%,
+    transparent 68%
+  );
+  transition: opacity 0.6s ease;
+  opacity: 0.75;
+}
+
+.lux-card:hover .emblem-glow {
+  opacity: 1;
+}
+
+/* ─── Scroll reveal ───────────────────────────────────────────────────────── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 0.8, 0.3, 1),
+    transform 0.75s cubic-bezier(0.22, 0.8, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── Hairline rules ──────────────────────────────────────────────────────── */
+
+.rule-gold {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--gold) 55%, transparent) 18%,
+    color-mix(in srgb, var(--gold) 55%, transparent) 82%,
+    transparent
+  );
+}
+
+/* ─── Motion opt-out ──────────────────────────────────────────────────────── */
+
+/*
+ * Everything above is decoration. Under reduced-motion the content must still
+ * be fully visible, so .reveal resets to its finished state rather than just
+ * losing its transition.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .lux-card,
+  .lux-card:hover,
+  .emblem,
+  .lux-card:hover .emblem,
+  .foil,
+  .lux-card:hover .foil {
+    transition: none;
+    transform: none;
+  }
+  .lux-card::after {
+    display: none;
+  }
+}

@@ -1,15 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { EVENT } from "@/content/event";
 
 const LINKS = [
-  { href: "#headliner", label: "The Music" },
-  { href: "#cookoff", label: "The Cookoff" },
-  { href: "#experience", label: "The Experience" },
-  { href: "#sponsors", label: "Sponsors" },
-  { href: "#faq", label: "FAQ" },
+  { hash: "#headliner", label: "The Music" },
+  { href: "/cookoff", label: "The Cookoff" },
+  { href: "/tickets", label: "Tickets" },
+  { href: "/sponsors", label: "Sponsors" },
+  { href: "/vendors", label: "Vendors" },
+  { href: "/faq", label: "FAQ" },
 ] as const;
 
 /**
@@ -20,11 +23,17 @@ const LINKS = [
  * scrolling the whole thing.
  */
 export function SiteNav() {
-  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const onHome = pathname === "/";
+  const [scrolledPast, setScrolledPast] = useState(false);
   const [open, setOpen] = useState(false);
 
+  // Only the home page has a hero for the bar to float over. Everywhere else
+  // a transparent bar would sit on the page's own first heading.
+  const scrolled = !onHome || scrolledPast;
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolledPast(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -55,8 +64,8 @@ export function SiteNav() {
         {/* At the top of the page the hero lockup sits directly below this
             bar, so showing the wordmark here too prints the brand twice. It
             fades in only once the hero has scrolled away. */}
-        <a
-          href="#top"
+        <Link
+          href="/"
           aria-label={`${EVENT.name} home`}
           aria-hidden={!scrolled}
           tabIndex={scrolled ? 0 : -1}
@@ -72,25 +81,28 @@ export function SiteNav() {
             priority
             className="h-auto max-h-9 w-auto"
           />
-        </a>
+        </Link>
 
         <ul className="hidden items-center gap-7 lg:flex">
           {LINKS.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                className="font-[family-name:var(--font-barlow)] text-xs font-bold tracking-[0.14em] text-bone/85 uppercase transition-colors hover:text-gold"
+            <li key={l.label}>
+              <Link
+                href={linkHref(l, onHome)}
+                aria-current={isCurrent(l, pathname) ? "page" : undefined}
+                className={`font-[family-name:var(--font-barlow)] text-xs font-bold tracking-[0.14em] uppercase transition-colors hover:text-gold ${
+                  isCurrent(l, pathname) ? "text-gold-hi" : "text-bone/85"
+                }`}
               >
                 {l.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         <div className="flex items-center gap-3">
-          <a href="#tickets" className="btn btn-primary px-5 py-2.5 text-xs">
+          <Link href="/tickets" className="btn btn-primary px-5 py-2.5 text-xs">
             Get Tickets
-          </a>
+          </Link>
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
@@ -107,14 +119,17 @@ export function SiteNav() {
         <div className="border-t border-gold/20 bg-char/98 backdrop-blur-md lg:hidden">
           <ul className="shell flex flex-col py-2">
             {LINKS.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
+              <li key={l.label}>
+                <Link
+                  href={linkHref(l, onHome)}
                   onClick={() => setOpen(false)}
-                  className="block border-b border-gold/10 py-4 font-[family-name:var(--font-barlow)] text-sm font-bold tracking-[0.14em] text-bone uppercase"
+                  aria-current={isCurrent(l, pathname) ? "page" : undefined}
+                  className={`block border-b border-gold/10 py-4 font-[family-name:var(--font-barlow)] text-sm font-bold tracking-[0.14em] uppercase ${
+                    isCurrent(l, pathname) ? "text-gold-hi" : "text-bone"
+                  }`}
                 >
                   {l.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -122,4 +137,18 @@ export function SiteNav() {
       )}
     </header>
   );
+}
+
+/**
+ * A hash-only link works on the home page but points at nothing from a
+ * sub-route, so off-home it becomes a full path back to the section.
+ */
+function linkHref(l: (typeof LINKS)[number], onHome: boolean) {
+  if ("href" in l) return l.href;
+  return onHome ? l.hash : `/${l.hash}`;
+}
+
+/** Marks the link for the route you are actually on. */
+function isCurrent(l: (typeof LINKS)[number], pathname: string) {
+  return "href" in l && l.href === pathname;
 }

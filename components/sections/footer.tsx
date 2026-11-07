@@ -1,13 +1,19 @@
 import Image from "next/image";
 import { EVENT } from "@/content/event";
 
+/*
+ * Absolute paths, not bare hashes: a "#venue" link resolves to nothing from
+ * /tickets or /cookoff, and this footer renders on every route.
+ */
 const NAV = [
-  { href: "#headliner", label: "The Music" },
-  { href: "#cookoff", label: "The Cookoff" },
-  { href: "#experience", label: "The Experience" },
-  { href: "#venue", label: "Venue" },
-  { href: "#sponsors", label: "Sponsors" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/tickets", label: "Tickets" },
+  { href: "/cookoff", label: "The Cookoff" },
+  { href: "/register", label: "Enter Your Team" },
+  { href: "/sponsors", label: "Sponsors" },
+  { href: "/vendors", label: "Vendors" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/#headliner", label: "The Music" },
+  { href: "/#venue", label: "Venue" },
 ] as const;
 
 /**
@@ -92,7 +98,7 @@ export function Footer() {
               </ul>
             )}
 
-            <a href="#tickets" className="btn btn-primary mt-7">
+            <a href="/tickets" className="btn btn-primary mt-7">
               Get Tickets
             </a>
           </div>

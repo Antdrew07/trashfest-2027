@@ -1,3 +1,5 @@
+import { Footer } from "@/components/sections/footer";
+import { SiteNav } from "@/components/sections/site-nav";
 import type { Metadata, Viewport } from "next";
 import { Rye, Bungee, Barlow_Condensed, Inter, Permanent_Marker } from "next/font/google";
 import { EVENT } from "@/content/event";
@@ -62,7 +64,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${rye.variable} ${bungee.variable} ${barlow.variable} ${inter.variable} ${marker.variable}`}
     >
-      <body className="bg-char text-muted antialiased">{children}</body>
+      <body className="bg-char text-muted antialiased">
+        <SiteNav />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

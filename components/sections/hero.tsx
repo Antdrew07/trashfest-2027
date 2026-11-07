@@ -203,7 +203,7 @@ export function Hero() {
             >
               <span aria-hidden="true">▶</span> Watch the Performance
             </button>
-            <a href="#tickets" className="btn btn-secondary">
+            <a href="/tickets" className="btn btn-secondary">
               Get Tickets
             </a>
           </div>
@@ -216,9 +216,9 @@ export function Hero() {
         {/* Three distressed ticket CTAs at the fold (§5.7b) */}
         <div className="shell pb-28 sm:pb-14">
           <div className="grid gap-3 sm:grid-cols-3 sm:gap-4">
-            <CtaCard href="#tickets" label="Get Tickets" sub="GA $55 · VIP $175" accent="var(--tx-red)" />
-            <CtaCard href="#cookoff" label="Enter the Cookoff" sub="$275 per team" accent="var(--gold)" />
-            <CtaCard href="#sponsors" label="Become a Sponsor" sub="$1,000 – $15,000" accent="var(--tx-navy)" />
+            <CtaCard href="/tickets" label="Get Tickets" sub="GA $55 · VIP $175" accent="var(--tx-red)" />
+            <CtaCard href="/cookoff" label="Enter the Cookoff" sub="$275 per team" accent="var(--gold)" />
+            <CtaCard href="/sponsors" label="Become a Sponsor" sub="$1,000 – $15,000" accent="var(--tx-navy)" />
           </div>
         </div>
       </div>
