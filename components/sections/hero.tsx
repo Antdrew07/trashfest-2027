@@ -182,7 +182,7 @@ export function Hero() {
         <div className="shell flex flex-1 flex-col items-center justify-center pt-20 pb-6">
           <LogoLockup />
 
-          <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+          <div className="mt-7 flex flex-col items-center gap-3 sm:mt-9 sm:flex-row sm:gap-4">
             <button
               type="button"
               onClick={() => setLightboxOpen(true)}
@@ -195,13 +195,13 @@ export function Hero() {
             </a>
           </div>
 
-          <p className="eyebrow mt-5 max-w-xs text-balance text-muted/80 sm:max-w-none">
+          <p className="eyebrow mt-5 max-w-[22rem] text-center leading-relaxed text-muted/80 sm:max-w-none">
             {credit} · {name}
           </p>
         </div>
 
         {/* Three distressed ticket CTAs at the fold (§5.7b) */}
-        <div className="shell pb-20 sm:pb-14">
+        <div className="shell pb-28 sm:pb-14">
           <div className="grid gap-3 sm:grid-cols-3 sm:gap-4">
             <CtaCard href="#tickets" label="Get Tickets" sub="GA $55 · VIP $175" accent="var(--tx-red)" />
             <CtaCard href="#cookoff" label="Enter the Cookoff" sub="$275 per team" accent="var(--gold)" />

@@ -1,18 +1,24 @@
-import {
-  BrisketIcon,
-  ChickenIcon,
-  RibsIcon,
-  StarIcon,
-} from "@/components/ui/brand";
+import Image from "next/image";
+import { StarIcon } from "@/components/ui/brand";
 import { GrainOverlay, SmokeOverlay, StarDivider } from "@/components/ui/atmosphere";
 import { COOKOFF, EVENT } from "@/content/event";
 
 const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 
-const CATEGORY_ICONS = {
-  brisket: BrisketIcon,
-  "pork-ribs": RibsIcon,
-  chicken: ChickenIcon,
+const JACKPOT_ART = {
+  "bloody-mary": { src: "/brand/photo-bloodymary.webp", w: 126, h: 126 },
+  dessert: { src: "/brand/photo-dessert.webp", w: 142, h: 112 },
+} as const;
+
+/**
+ * The flyer marks the categories with livestock silhouettes - cow, pig,
+ * chicken - not cuts of meat. These are keyed straight out of the key art
+ * (flat red on wood separates cleanly on R-minus-G).
+ */
+const CATEGORY_ART = {
+  brisket: { src: "/brand/sil-cow.webp", w: 88, h: 46 },
+  "pork-ribs": { src: "/brand/sil-pig.webp", w: 88, h: 44 },
+  chicken: { src: "/brand/sil-chicken.webp", w: 53, h: 50 },
 } as const;
 
 /**
@@ -44,7 +50,10 @@ export function Cookoff() {
             </span>
           </span>
 
-          <h2 className="font-display distressed distressed-fine mt-6 text-[clamp(1.9rem,5.5vw,4rem)] leading-[1] text-bone">
+          <h2
+            className="font-display mt-6 text-[clamp(1.9rem,5.5vw,4rem)] leading-[1] text-bone"
+            style={{ filter: "drop-shadow(0 4px 18px rgba(0,0,0,0.9))" }}
+          >
             <span className="text-gold-grad">King</span>
             <span className="mx-2 text-[0.6em] text-bone/70 italic">or</span>
             <span className="text-ruby-grad">Queen</span>
@@ -80,12 +89,21 @@ export function Cookoff() {
           </PlankCard>
 
           <PlankCard label="BBQ Categories" accent="var(--tx-red)">
-            <ul className="flex items-end justify-center gap-5">
+            <ul className="flex items-end justify-center gap-6">
               {COOKOFF.categories.map((c) => {
-                const Icon = CATEGORY_ICONS[c.id];
+                const art = CATEGORY_ART[c.id];
                 return (
                   <li key={c.id} className="flex flex-col items-center gap-2">
-                    <Icon className="h-9 w-9 fill-tx-red" />
+                    <span className="flex h-16 items-end">
+                      <Image
+                        src={art.src}
+                        alt=""
+                        aria-hidden="true"
+                        width={art.w}
+                        height={art.h}
+                        className="max-h-14 w-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
+                      />
+                    </span>
                     <span className="font-[family-name:var(--font-barlow)] text-[0.68rem] font-bold tracking-[0.1em] text-bone uppercase">
                       {c.name}
                     </span>
@@ -97,18 +115,31 @@ export function Cookoff() {
 
           {COOKOFF.jackpots.map((j) => (
             <PlankCard key={j.id} label={j.name} accent="var(--ember)">
+              <Image
+                src={JACKPOT_ART[j.id].src}
+                alt=""
+                aria-hidden="true"
+                width={JACKPOT_ART[j.id].w}
+                height={JACKPOT_ART[j.id].h}
+                className="mb-1 h-20 w-auto drop-shadow-[0_6px_16px_rgba(0,0,0,0.7)]"
+              />
               <p className="font-[family-name:var(--font-bungee)] text-5xl text-tx-red">
                 {usd(j.feeUsd)}
               </p>
-              <p className="eyebrow mt-2 text-bone/80">Each</p>
+              <p className="eyebrow mt-1 text-bone/80">Each</p>
               <p className="mt-2 text-sm text-muted">Separate jackpot · {j.judgedOn}</p>
             </PlankCard>
           ))}
 
           <PlankCard label={COOKOFF.showmanship.name} accent="var(--tx-navy)">
-            <p className="text-5xl" aria-hidden="true">
-              🏆
-            </p>
+            <Image
+              src="/brand/icon-trophy.webp"
+              alt=""
+              aria-hidden="true"
+              width={78}
+              height={84}
+              className="h-24 w-auto drop-shadow-[0_6px_18px_rgba(212,162,76,0.45)]"
+            />
             <p className="eyebrow mt-3 text-bone/80">{COOKOFF.showmanship.note}</p>
             <p className="mt-2 text-sm text-muted">
               Judged on how your cook site shows up and shows off.

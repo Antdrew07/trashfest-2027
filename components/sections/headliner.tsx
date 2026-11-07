@@ -72,7 +72,10 @@ export function Headliner() {
           <div>
             <p className="eyebrow">{headliner.credit}</p>
 
-            <h2 className="font-display distressed distressed-fine mt-3 text-[clamp(2rem,6vw,4.25rem)] leading-[0.95] text-bone">
+            <h2
+              className="font-display mt-3 text-[clamp(2rem,6vw,4.25rem)] leading-[0.95] text-bone"
+              style={{ filter: "drop-shadow(0 4px 18px rgba(0,0,0,0.9))" }}
+            >
               {headliner.name}
             </h2>
 
