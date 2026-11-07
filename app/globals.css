@@ -237,6 +237,12 @@ h1, h2, h3, h4 {
   .shell { padding-inline: 32px; }
 }
 
+/*
+ * The event strip is sticky, so anchored sections must reserve room for it
+ * or a jump from the nav lands with the heading hidden behind the bar.
+ */
+section[id] { scroll-margin-top: 5.5rem; }
+
 .section-y { padding-block: 6rem; }
 @media (min-width: 768px) {
   .section-y { padding-block: 9rem; }

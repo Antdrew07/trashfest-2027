@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Embers, GrainOverlay, SmokeOverlay } from "@/components/ui/atmosphere";
 import { LogoLockup } from "@/components/ui/logo-lockup";
@@ -145,6 +146,18 @@ export function Hero() {
     <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-char">
       <StageBackdrop />
 
+      {/* Full-bleed crowd plate — the actual hero image (§4 calls for this
+          imagery; the CSS scene below it covers first paint and failure). */}
+      <Image
+        src="/photo/hero-crowd.webp"
+        alt=""
+        aria-hidden="true"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-[50%_42%]"
+      />
+
       {/* Headliner clip. Scaled to cover without letterboxing. */}
       {!reducedMotion && (
         <div
@@ -169,7 +182,7 @@ export function Hero() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, #0B0908AA 0%, #0B090855 40%, #0B0908 100%)",
+            "linear-gradient(180deg, rgba(11,9,8,0.82) 0%, rgba(11,9,8,0.45) 38%, rgba(11,9,8,0.88) 78%, #0B0908 100%)",
         }}
       />
       <div className="absolute inset-0" style={{ background: "var(--grad-fire)" }} />
