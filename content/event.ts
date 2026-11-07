@@ -459,6 +459,104 @@ export const VENDORS = {
 } as const;
 
 // ─────────────────────────────────────────────────────────────────────────────
+// FAQ
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Every answer below is derived from a fact already in this file. Where the
+ * organizer has not confirmed something the entry is marked `pending` and says
+ * so plainly rather than guessing — a wrong answer about refunds, parking or
+ * kids is worse than no answer, because people plan around it.
+ */
+export type FaqItem = {
+  q: string;
+  a: string;
+  group: "Going" | "Cooking";
+  pending?: boolean;
+};
+
+export const FAQ: readonly FaqItem[] = [
+  {
+    group: "Going",
+    q: "When and where is it?",
+    a: `${EVENT.dateLabelLong} at ${EVENT.venue.name}, ${EVENT.venue.street}, ${EVENT.venue.city}, ${EVENT.venue.state}. Barbecue turn-ins run through the afternoon and the bands start at 6:00–6:30 PM.`,
+  },
+  {
+    group: "Going",
+    q: "What does a ticket get me?",
+    a: `General Admission is $${TICKETS.tiers[0].priceUsd} ${TICKETS.feesNote} and covers full festival access. VIP is $${TICKETS.tiers[1].priceUsd} ${TICKETS.feesNote} and adds free beer and liquor.`,
+  },
+  {
+    group: "Going",
+    q: "Can I bring my own drinks?",
+    a: "Yes — it's BYOB. Coolers are checked at the gate and there is a $15 charge per cooler. Absolutely no glass.",
+  },
+  {
+    group: "Going",
+    q: "Who's playing?",
+    a: `${MUSIC.headliner.name} headline. ${MUSIC.headliner.credit}. The rest of the line-up is still being booked and will be announced here.`,
+  },
+  {
+    group: "Going",
+    q: "Where do I park, and can I bring an RV?",
+    a: "Parking, RV and cook-site arrival details are still being finalised with the venue. They will be posted here as soon as they are confirmed.",
+    pending: true,
+  },
+  {
+    group: "Going",
+    q: "Are tickets refundable?",
+    a: "The refund policy has not been set yet. It will be published here and on the ticket listing before tickets go on sale.",
+    pending: true,
+  },
+  {
+    group: "Going",
+    q: "Is it family friendly — can I bring kids?",
+    a: "The kids and family policy is still being worked out with the venue, so please check back before you plan around it.",
+    pending: true,
+  },
+  {
+    group: "Going",
+    q: "Can I sell food at the festival?",
+    a: `Food vendor spots are $${VENDORS.food.priceUsd} and there are ${VENDORS.food.spots}. ${VENDORS.food.note} Email us to apply.`,
+  },
+  {
+    group: "Cooking",
+    q: "What does it cost to enter the cookoff?",
+    a: `$${COOKOFF.entryFeeUsd} ${COOKOFF.entryFeeNote}. Entry is capped at ${COOKOFF.teamCap} teams, and ${COOKOFF.payoutPercent}% of entry fees goes back out as prize money.`,
+  },
+  {
+    group: "Cooking",
+    q: "What gets judged?",
+    a: `Three ${EVENT.sanctioningBody}-judged meat categories — ${COOKOFF.categories
+      .map((c) => c.name)
+      .join(", ")} — plus two Full Dress jackpots at $${COOKOFF.jackpots[0].feeUsd} each (Bloody Mary and Dessert) and a Cook Site Showmanship award.`,
+  },
+  {
+    group: "Cooking",
+    q: "When do teams check in?",
+    a: "Friday, March 5 from 4:00 to 6:00 PM, with a mandatory cooks meeting at 6:00 PM and meat inspection straight after. Late check-in stays open until 10:00 AM Saturday.",
+  },
+  {
+    group: "Cooking",
+    q: "Can I season my meat before I arrive?",
+    a: "No. All meat must be inspected raw — no pre-seasoned meat. The head judge drives the grounds for inspection after the Friday cooks meeting.",
+  },
+  {
+    group: "Cooking",
+    q: "What are the turn-in times?",
+    a: `${COOKOFF.categories
+      .map((c) => `${c.name} ${c.turnIn}`)
+      .join(", ")}. Both Full Dress jackpots turn in between 11:00 AM and 12:00 PM.`,
+  },
+  {
+    group: "Cooking",
+    q: "How do I register a team?",
+    a: `The organizer is finalising the entry form. Email us in the meantime and we'll hold your spot against the ${COOKOFF.teamCap}-team cap.`,
+    pending: true,
+  },
+] as const;
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Open questions — DESIGN.md §7 "Still pending"
 // ─────────────────────────────────────────────────────────────────────────────
 

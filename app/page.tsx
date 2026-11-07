@@ -1,5 +1,7 @@
 import { Cookoff } from "@/components/sections/cookoff";
 import { EventStrip } from "@/components/sections/event-strip";
+import { Faq } from "@/components/sections/faq";
+import { Footer } from "@/components/sections/footer";
 import { Experience } from "@/components/sections/experience";
 import { Headliner } from "@/components/sections/headliner";
 import { Hero } from "@/components/sections/hero";
@@ -42,7 +44,9 @@ export default function HomePage() {
         <Experience />
         <Venue />
         <Sponsors />
+        <Faq />
       </main>
+      <Footer />
     </>
   );
 }

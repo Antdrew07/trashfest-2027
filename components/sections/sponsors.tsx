@@ -141,7 +141,7 @@ export function Sponsors() {
           ))}
         </div>
 
-        <footer className="mt-14 flex flex-col items-start gap-4 border-t border-gold/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 flex flex-col items-start gap-4 border-t border-gold/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-md text-sm text-muted">
             Want something that isn&apos;t listed, or need to talk it through?
             Email us and we&apos;ll build the package around you.
@@ -149,7 +149,7 @@ export function Sponsors() {
           <a href={`mailto:${EVENT.contactEmail}`} className="btn btn-secondary shrink-0">
             {EVENT.contactEmail}
           </a>
-        </footer>
+        </div>
       </div>
     </section>
   );
