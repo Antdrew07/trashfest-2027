@@ -84,17 +84,37 @@ export function Stat({
   label,
   sub,
   accent = "var(--ember)",
+  foil,
 }: {
   value: string;
   label: string;
   sub?: string;
   accent?: string;
+  /** Metal stops for the numeral. Without them it falls back to flat accent. */
+  foil?: { lo: string; base: string; hi: string };
 }) {
   return (
-    <div className="text-center">
+    <div
+      className="text-center"
+      style={
+        foil
+          ? ({
+              "--foil-lo": foil.lo,
+              "--foil-base": foil.base,
+              "--foil-hi": foil.hi,
+            } as React.CSSProperties)
+          : undefined
+      }
+    >
       <p
-        className="font-[family-name:var(--font-bungee)] text-[clamp(2.4rem,6vw,4.5rem)] leading-none tabular-nums"
-        style={{ color: accent, textShadow: `0 0 36px ${accent}55` }}
+        className={`font-[family-name:var(--font-bungee)] text-[clamp(2.4rem,6vw,4.5rem)] leading-none tabular-nums ${
+          foil ? "foil" : ""
+        }`}
+        style={
+          foil
+            ? { filter: `drop-shadow(0 0 28px ${accent}44)` }
+            : { color: accent, textShadow: `0 0 36px ${accent}55` }
+        }
       >
         {value}
       </p>
@@ -143,8 +163,8 @@ export function PhotoTile({
 }) {
   return (
     <figure
-      className="group relative overflow-hidden rounded-[4px] border border-gold/20"
-      style={{ aspectRatio: ratio }}
+      className="lux-card group relative overflow-hidden"
+      style={{ aspectRatio: ratio, "--edge": "var(--gold)" } as React.CSSProperties}
     >
       <Image
         src={src}
@@ -198,11 +218,8 @@ export function PhotoStatCard({
 }) {
   return (
     <figure
-      className="group relative overflow-hidden rounded-[4px] border"
-      style={{
-        aspectRatio: ratio,
-        borderColor: `color-mix(in srgb, ${accent} 42%, transparent)`,
-      }}
+      className="lux-card group relative overflow-hidden"
+      style={{ aspectRatio: ratio, "--edge": accent } as React.CSSProperties}
     >
       <Image
         src={src}

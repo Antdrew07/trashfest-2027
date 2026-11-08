@@ -39,7 +39,12 @@ export function Reveal({
 
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        // `isIntersecting` alone is not enough. Observations are delivered on
+        // a frame cadence, so a fast scroll — a flung phone, an anchor jump
+        // from the nav — can carry an element from below the fold to above it
+        // between two deliveries, and it would stay invisible for good. If it
+        // is now above the viewport, the user has already passed it: show it.
+        if (entry.isIntersecting || entry.boundingClientRect.top < 0) {
           setShown(true);
           io.disconnect();
         }
