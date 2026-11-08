@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    // The headliner poster is the band's own YouTube thumbnail, loaded from
+    // YouTube's CDN rather than copied into this repo. DESIGN.md §5.7 says to
+    // embed rather than rip, and hot-linking keeps it authoritative: if the
+    // band changes the video's artwork, the site follows.
+    remotePatterns: [
+      { protocol: "https", hostname: "i.ytimg.com", pathname: "/vi/**" },
+    ],
   },
 };
 

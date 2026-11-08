@@ -1,4 +1,5 @@
 import { Embers, GrainOverlay, SmokeOverlay, StarDivider } from "@/components/ui/atmosphere";
+import { VideoPoster } from "@/components/ui/video-poster";
 import { MUSIC } from "@/content/event";
 
 /**
@@ -52,16 +53,12 @@ export function Headliner() {
               }}
             />
             <div className="panel-charred rivets relative overflow-hidden rounded-[4px] border border-gold/30 p-2">
-              <div className="aspect-video w-full overflow-hidden rounded-[2px] bg-black">
-                <iframe
-                  title={`${headliner.name} — ${video.primaryTitle}`}
-                  src={`https://www.youtube-nocookie.com/embed/${video.primaryId}?rel=0&modestbranding=1&playsinline=1&start=${video.primaryStartSeconds}`}
-                  allow="encrypted-media; fullscreen"
-                  allowFullScreen
-                  loading="lazy"
-                  className="h-full w-full border-0"
-                />
-              </div>
+              <VideoPoster
+                videoId={video.primaryId}
+                title={`${headliner.name} — ${video.primaryTitle}`}
+                badge="The Sound of Trash Fest"
+                startSeconds={video.primaryStartSeconds}
+              />
             </div>
             <p className="mt-3 text-center text-xs text-muted/70">
               {video.primaryTitle} · official video
@@ -103,16 +100,8 @@ export function Headliner() {
             </dl>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#tickets" className="btn btn-primary">
+              <a href="/tickets" className="btn btn-primary">
                 Get Tickets
-              </a>
-              <a
-                href={`https://www.youtube.com/watch?v=${video.primaryId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
-              >
-                <span aria-hidden="true">▶</span> Watch the Performance
               </a>
             </div>
           </div>
