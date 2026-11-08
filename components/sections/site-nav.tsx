@@ -69,7 +69,9 @@ export function SiteNav() {
           aria-label={`${EVENT.name} home`}
           aria-hidden={!scrolled}
           tabIndex={scrolled ? 0 : -1}
-          className={`flex shrink-0 items-center transition-opacity duration-300 ${
+          // py-1 takes the logo's own hit area from 36px to 44px. The bar's
+          // height is set by the taller ticket button, so nothing moves.
+          className={`flex shrink-0 items-center py-1 transition-opacity duration-300 ${
             scrolled ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >
@@ -100,7 +102,12 @@ export function SiteNav() {
         </ul>
 
         <div className="flex items-center gap-3">
-          <Link href="/tickets" className="btn btn-primary px-5 py-2.5 text-xs">
+          {/* whitespace-nowrap, or "Get Tickets" breaks across two lines on a
+              narrow phone and the button swells to half the bar. */}
+          <Link
+            href="/tickets"
+            className="btn btn-primary px-3.5 py-2.5 text-[0.7rem] whitespace-nowrap sm:px-5 sm:text-xs"
+          >
             Get Tickets
           </Link>
           <button

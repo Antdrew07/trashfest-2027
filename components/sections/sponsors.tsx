@@ -430,7 +430,7 @@ function TierCard({
 
       <a
         href={mailto(tier, program)}
-        className="relative mt-6 inline-flex items-center gap-2 self-start font-[family-name:var(--font-barlow)] text-xs font-extrabold tracking-[0.14em] uppercase transition-colors"
+        className="relative mt-3.5 -mb-3 inline-flex items-center gap-2 self-start py-3.5 font-[family-name:var(--font-barlow)] text-xs font-extrabold tracking-[0.14em] uppercase transition-colors"
         style={{ color: art.edge }}
       >
         Claim this tier

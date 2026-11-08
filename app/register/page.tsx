@@ -137,7 +137,7 @@ export default function RegisterPage() {
               Full rules, turn-in times and the run of show are on the{" "}
               <Link
                 href="/cookoff"
-                className="text-gold-hi underline decoration-gold/40 underline-offset-4 transition-colors hover:decoration-gold"
+                className="-my-3.5 inline-block py-3.5 text-gold-hi underline decoration-gold/40 underline-offset-4 transition-colors hover:decoration-gold"
               >
                 cookoff page
               </Link>

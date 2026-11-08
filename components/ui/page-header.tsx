@@ -29,10 +29,10 @@ export function PageHeader({
       />
 
       <div className="shell relative pt-28 pb-14 sm:pt-32 sm:pb-20">
-        <nav aria-label="Breadcrumb" className="mb-7">
+        <nav aria-label="Breadcrumb" className="mb-5">
           <Link
             href="/"
-            className="font-[family-name:var(--font-barlow)] text-xs font-bold tracking-[0.14em] text-muted uppercase transition-colors hover:text-gold-hi"
+            className="-my-3.5 inline-block py-3.5 font-[family-name:var(--font-barlow)] text-xs font-bold tracking-[0.14em] text-muted uppercase transition-colors hover:text-gold-hi"
           >
             <span aria-hidden="true">←</span> Back to Trash Fest
           </Link>

@@ -56,12 +56,14 @@ export function Footer() {
             <h3 className="font-[family-name:var(--font-barlow)] text-xs font-extrabold tracking-[0.18em] text-gold-hi uppercase">
               Explore
             </h3>
-            <ul className="mt-5 space-y-3">
+            {/* py-2.5/-my-2.5 gives each link a ~44px tap target without
+                moving anything; at 17px tall they were a coin-flip to hit. */}
+            <ul className="mt-3 space-y-0.5">
               {NAV.map((l) => (
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    className="text-sm text-muted transition-colors hover:text-bone"
+                    className="-my-0.5 block py-2.5 text-sm text-muted transition-colors hover:text-bone"
                   >
                     {l.label}
                   </a>
@@ -76,7 +78,7 @@ export function Footer() {
             </h3>
             <a
               href={`mailto:${EVENT.contactEmail}`}
-              className="mt-5 block text-sm break-all text-muted transition-colors hover:text-bone"
+              className="mt-3 block py-2.5 text-sm break-all text-muted transition-colors hover:text-bone"
             >
               {EVENT.contactEmail}
             </a>
@@ -89,7 +91,7 @@ export function Footer() {
                       href={url as string}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-[family-name:var(--font-barlow)] text-xs font-bold tracking-[0.12em] text-muted uppercase transition-colors hover:text-gold-hi"
+                      className="-my-3.5 inline-block py-3.5 font-[family-name:var(--font-barlow)] text-xs font-bold tracking-[0.12em] text-muted uppercase transition-colors hover:text-gold-hi"
                     >
                       {network}
                     </a>

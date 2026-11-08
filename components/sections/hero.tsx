@@ -41,7 +41,6 @@ export function Hero() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [audioOn, setAudioOn] = useState(false);
   const [playing, setPlaying] = useState(true);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
   const { video, name, credit } = MUSIC.headliner;
 
@@ -129,19 +128,6 @@ export function Hero() {
     });
   }, [command]);
 
-  // Close the lightbox on Escape and lock the page behind it.
-  useEffect(() => {
-    if (!lightboxOpen) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setLightboxOpen(false);
-    document.addEventListener("keydown", onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prev;
-    };
-  }, [lightboxOpen]);
-
   return (
     <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-char">
       <StageBackdrop />
@@ -195,18 +181,51 @@ export function Hero() {
         <div className="shell flex flex-1 flex-col items-center justify-center pt-28 pb-6 sm:pt-24">
           <LogoLockup />
 
-          <div className="mt-7 flex flex-col items-center gap-3 sm:mt-9 sm:flex-row sm:gap-4">
-            <button
-              type="button"
-              onClick={() => setLightboxOpen(true)}
-              className="btn btn-primary"
-            >
-              <span aria-hidden="true">▶</span> Watch the Performance
-            </button>
-            <a href="/tickets" className="btn btn-secondary">
-              Get Tickets
-            </a>
-          </div>
+          <a href="/tickets" className="btn btn-primary mt-7 sm:mt-9">
+            Get Tickets
+          </a>
+
+          {/*
+            Video controls sit here, under the CTA, rather than pinned to the
+            bottom corners. Parked down there on a phone they were below the
+            fold, so nobody could tell a clip was playing at all, let alone
+            that it had sound.
+
+            Sound is deliberately NOT gated on videoReady. That flag depends
+            on YouTube answering a postMessage handshake, and if it does not
+            answer the control would never appear — a worse failure than a
+            button that turns on sound for a clip which is already silent.
+            Play/pause is gated, because it has nothing to drive without a
+            player that has reported in.
+          */}
+          {!reducedMotion && (
+            <div className="animate-fade-in mt-5 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={toggleAudio}
+                aria-pressed={audioOn}
+                className={`flex items-center gap-2 rounded-full border border-ember/60 bg-char/70 px-4 py-3 font-[family-name:var(--font-barlow)] text-[0.7rem] font-bold tracking-[0.12em] text-bone uppercase backdrop-blur transition hover:border-ember ${
+                  audioOn ? "" : "animate-pulse-glow"
+                }`}
+              >
+                <span aria-hidden="true">{audioOn ? "🔊" : "🔈"}</span>
+                {audioOn ? "Sound On" : "Turn It Up"}
+              </button>
+
+              {videoReady && (
+                <button
+                  type="button"
+                  onClick={togglePlay}
+                  aria-label={playing ? "Pause background video" : "Play background video"}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-bone/30 bg-char/70 text-bone backdrop-blur transition hover:border-bone/70"
+                >
+                  <span aria-hidden="true" className="text-xs">
+                    {playing ? "❚❚" : "▶"}
+                  </span>
+                </button>
+              )}
+            </div>
+          )}
 
           <p className="eyebrow mt-5 max-w-[22rem] text-center leading-relaxed text-muted/80 sm:max-w-none">
             {credit} · {name}
@@ -214,7 +233,7 @@ export function Hero() {
         </div>
 
         {/* Three distressed ticket CTAs at the fold (§5.7b) */}
-        <div className="shell pb-28 sm:pb-14">
+        <div className="shell pb-10 sm:pb-14">
           <div className="grid gap-3 sm:grid-cols-3 sm:gap-4">
             <CtaCard href="/tickets" label="Get Tickets" sub="GA $55 · VIP $175" accent="var(--tx-red)" />
             <CtaCard href="/cookoff" label="Enter the Cookoff" sub="$275 per team" accent="var(--gold)" />
@@ -223,40 +242,6 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Sound opt-in — browsers block autoplay with audio (§5.6) */}
-      {!reducedMotion && (
-        <button
-          type="button"
-          onClick={toggleAudio}
-          aria-pressed={audioOn}
-          className={`absolute bottom-5 left-4 z-20 flex items-center gap-2 rounded-full border border-ember/50 bg-char/80 px-4 py-2.5 font-[family-name:var(--font-barlow)] text-xs font-bold tracking-[0.12em] text-bone uppercase backdrop-blur transition hover:border-ember ${
-            audioOn ? "" : "animate-pulse-glow"
-          }`}
-        >
-          <span aria-hidden="true">{audioOn ? "🔊" : "🔈"}</span>
-          {audioOn ? "Sound On" : "Turn It Up"}
-        </button>
-      )}
-
-      {/* Playback control (§5.9, accessibility) */}
-      {!reducedMotion && videoReady && (
-        <button
-          type="button"
-          onClick={togglePlay}
-          className="absolute right-4 bottom-5 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-bone/25 bg-char/80 text-bone backdrop-blur transition hover:border-bone/60"
-          aria-label={playing ? "Pause background video" : "Play background video"}
-        >
-          <span aria-hidden="true">{playing ? "❚❚" : "▶"}</span>
-        </button>
-      )}
-
-      {lightboxOpen && (
-        <PerformanceLightbox
-          videoId={video.primaryId}
-          title={`${name} — ${video.primaryTitle}`}
-          onClose={() => setLightboxOpen(false)}
-        />
-      )}
     </section>
   );
 }
@@ -295,48 +280,5 @@ function CtaCard({
         →
       </span>
     </a>
-  );
-}
-
-function PerformanceLightbox({
-  videoId,
-  title,
-  onClose,
-}: {
-  videoId: string;
-  title: string;
-  onClose: () => void;
-}) {
-  return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label={title}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-char/95 p-4 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-5xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="aspect-video w-full overflow-hidden rounded-[4px] border border-gold/30 bg-black shadow-[0_0_80px_-20px_rgba(255,90,31,0.6)]">
-          <iframe
-            title={title}
-            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
-            allow="autoplay; encrypted-media; fullscreen"
-            allowFullScreen
-            className="h-full w-full border-0"
-          />
-        </div>
-        <button
-          type="button"
-          onClick={onClose}
-          autoFocus
-          className="btn btn-secondary mx-auto mt-5 flex"
-        >
-          Close
-        </button>
-      </div>
-    </div>
   );
 }

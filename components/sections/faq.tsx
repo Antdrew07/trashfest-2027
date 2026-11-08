@@ -40,7 +40,7 @@ export function Faq({ headless = false }: { headless?: boolean } = {}) {
           Still stuck?{" "}
           <a
             href={`mailto:${EVENT.contactEmail}`}
-            className="text-gold-hi underline decoration-gold/40 underline-offset-4 transition-colors hover:decoration-gold"
+            className="-my-3.5 inline-block py-3.5 text-gold-hi underline decoration-gold/40 underline-offset-4 transition-colors hover:decoration-gold"
           >
             {EVENT.contactEmail}
           </a>
