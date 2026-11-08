@@ -171,7 +171,7 @@ export function PhotoTile({
         alt=""
         fill
         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-        className="object-cover transition-transform duration-700 group-hover:scale-105"
+        className="object-cover transition-transform duration-400 group-hover:scale-105"
       />
       <div
         className="absolute inset-0"
@@ -227,7 +227,7 @@ export function PhotoStatCard({
         fill
         priority={priority}
         sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
-        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+        className="object-cover transition-transform duration-400 ease-out group-hover:scale-[1.06]"
       />
 
       {/* Scrim: readable type without flattening the photograph. */}

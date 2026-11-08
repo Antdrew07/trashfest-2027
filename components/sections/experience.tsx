@@ -39,7 +39,7 @@ export function Experience() {
               foil={{ lo: "#6b5422", base: "#d4a24c", hi: "#f7d88a" }}
             />
           </Reveal>
-          <Reveal delay={90}>
+          <Reveal delay={45}>
             <Stat
               value={String(COOKOFF.teamCap)}
               label="Team Cap"
@@ -48,7 +48,7 @@ export function Experience() {
               foil={{ lo: "#6b2409", base: "#ff5a1f", hi: "#ffb23f" }}
             />
           </Reveal>
-          <Reveal delay={180}>
+          <Reveal delay={90}>
             <Stat
               value={String(COOKOFF.categories.length)}
               label="IBCA Categories"
@@ -57,7 +57,7 @@ export function Experience() {
               foil={{ lo: "#5e0a1a", base: "#d8324f", hi: "#ff9fae" }}
             />
           </Reveal>
-          <Reveal delay={270}>
+          <Reveal delay={135}>
             <Stat
               value={`$${TICKETS.tiers[0].priceUsd}`}
               label="Gate Price"
@@ -82,7 +82,7 @@ export function Experience() {
 
         <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {TILES.map((t, i) => (
-            <Reveal key={t.title} delay={i * 80} className="h-full">
+            <Reveal key={t.title} delay={i * 40} className="h-full">
               <PhotoTile src={t.src} title={t.title} sub={t.sub} />
             </Reveal>
           ))}

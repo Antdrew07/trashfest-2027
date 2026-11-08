@@ -95,7 +95,7 @@ export function Cookoff() {
               foil: { lo: "#6b2409", base: "#ff5a1f", hi: "#ffb23f" },
             },
           ].map((f, i) => (
-            <Reveal key={f.eyebrow} delay={i * 90} className="h-full">
+            <Reveal key={f.eyebrow} delay={i * 45} className="h-full">
               <div
                 className="lux-card flex h-full flex-col items-center px-6 py-10 text-center"
                 style={
@@ -129,7 +129,7 @@ export function Cookoff() {
           </Reveal>
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {COOKOFF.categories.map((c, i) => (
-              <Reveal key={c.id} delay={i * 90} className="h-full">
+              <Reveal key={c.id} delay={i * 45} className="h-full">
                 <PhotoStatCard
                   src={CATEGORY_ART[c.id]}
                   label={c.name}

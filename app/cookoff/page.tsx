@@ -62,7 +62,7 @@ export default function CookoffPage() {
         </h2>
         <div className="mt-6 grid gap-5 md:grid-cols-3">
           {COOKOFF.categories.map((c, i) => (
-            <Reveal key={c.id} delay={i * 80} className="h-full">
+            <Reveal key={c.id} delay={i * 40} className="h-full">
             <div className="lux-card h-full p-6" style={{ "--edge": "#bf0a30" } as React.CSSProperties}>
               <h3 className="headline text-2xl text-bone">{c.name}</h3>
               <p className="mt-3 font-[family-name:var(--font-barlow)] text-xs font-bold tracking-[0.14em] text-tx-red uppercase">

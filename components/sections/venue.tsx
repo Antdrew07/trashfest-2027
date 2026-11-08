@@ -70,16 +70,31 @@ export function Venue() {
     <section
       id="venue"
       ref={sectionRef}
-      className="relative isolate flex min-h-[32rem] items-center overflow-hidden bg-char lg:min-h-[40rem]"
+      className="relative isolate flex flex-col overflow-hidden bg-char sm:min-h-[34rem] sm:items-center sm:justify-center lg:min-h-[40rem]"
     >
-      {/* Aerial plate */}
-      <div className="absolute inset-0" aria-hidden="true">
+      {/*
+        One plate, two layouts.
+
+        On a phone it is a banner in normal flow with the clip's own 16:9
+        shape, so the whole drone shot is visible — square, courthouse,
+        storefronts. As a full-bleed backdrop it could not work: a 390x760
+        viewport against a 16:9 frame is height-constrained, so the image is
+        cropped horizontally and object-position has no vertical effect at
+        all. The only part on show was the top of the frame, which is sky.
+
+        From sm up there is room beside the card, so it goes back to being an
+        absolutely positioned backdrop.
+      */}
+      <div
+        className="relative aspect-[16/9] w-full sm:absolute sm:inset-0 sm:aspect-auto"
+        aria-hidden="true"
+      >
         <Image
           src="/photo/aerial-poster.webp"
           alt=""
           fill
           sizes="100vw"
-          className="object-cover object-[50%_45%]"
+          className="object-cover object-[50%_50%] sm:object-[50%_45%]"
         />
         {armed && (
           <video
@@ -90,23 +105,32 @@ export function Venue() {
             preload="auto"
             poster="/photo/aerial-poster.webp"
             onPlaying={() => setPlaying(true)}
-            className="absolute inset-0 h-full w-full object-cover object-[50%_45%] transition-opacity duration-1000"
+            className="absolute inset-0 h-full w-full object-cover object-[50%_50%] transition-opacity duration-700 sm:object-[50%_45%]"
             style={{ opacity: playing ? 1 : 0 }}
           >
             <source src="/video/aerial.mp4" type="video/mp4" />
           </video>
         )}
 
-        {/* Readability scrim, weighted left where the card sits */}
+        {/* Phone: just enough fade at the edges to seat the banner. */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 sm:hidden"
           style={{
             background:
-              "linear-gradient(90deg, rgba(11,9,8,0.78) 0%, rgba(11,9,8,0.52) 44%, rgba(11,9,8,0.14) 78%, rgba(11,9,8,0.4) 100%)",
+              "linear-gradient(180deg, rgba(11,9,8,0.5) 0%, transparent 22%, transparent 68%, #0B0908 100%)",
+          }}
+        />
+
+        {/* sm+: weighted left, where the card sits over the picture. */}
+        <div
+          className="absolute inset-0 hidden sm:block"
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(11,9,8,0.8) 0%, rgba(11,9,8,0.55) 44%, rgba(11,9,8,0.12) 78%, rgba(11,9,8,0.35) 100%)",
           }}
         />
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 hidden sm:block"
           style={{
             background:
               "linear-gradient(180deg, #0B0908 0%, rgba(11,9,8,0.1) 18%, rgba(11,9,8,0.1) 76%, #0B0908 100%)",
@@ -115,20 +139,23 @@ export function Venue() {
         <div className="absolute inset-0 bg-[url('/textures/noise.svg')] bg-[length:200px_200px] opacity-[0.05]" />
       </div>
 
-      {/* Card */}
-      <div className="shell section-y relative z-10 w-full">
-        <article className="panel-charred rivets max-w-xl rounded-[4px] border border-gold/30 p-7 shadow-[0_30px_80px_-24px_rgba(0,0,0,0.9)] backdrop-blur-[3px] sm:p-10">
+      {/* Card. Pulled up over the banner's lower edge on a phone. */}
+      <div className="shell relative z-10 -mt-10 w-full pb-14 sm:mt-0 sm:py-20 lg:py-24">
+        <article
+          className="lux-card max-w-xl p-5 backdrop-blur-[3px] sm:p-9"
+          style={{ "--edge": "var(--gold)" } as React.CSSProperties}
+        >
           <p className="eyebrow flex items-center gap-2">
             <span className="text-tx-red" aria-hidden="true">★</span>
             Right here in the {EVENT.cityTagline}
           </p>
 
-          <h2 className="headline mt-5 text-[clamp(2.2rem,5.5vw,4.25rem)] leading-[0.92]">
+          <h2 className="headline mt-4 text-[clamp(1.75rem,7vw,4.25rem)] leading-[0.95] sm:mt-5">
             <span className="block text-bone">Small town.</span>
             <span className="block text-gold-hi">Big Saturday.</span>
           </h2>
 
-          <p className="mt-6 max-w-md text-lg leading-relaxed text-muted">
+          <p className="mt-4 max-w-md text-[0.95rem] leading-relaxed text-muted sm:mt-6 sm:text-lg">
             All roads lead to {EVENT.city}. Join us at {EVENT.venue.name} for
             championship barbecue and a night of live Texas music under the open
             sky.

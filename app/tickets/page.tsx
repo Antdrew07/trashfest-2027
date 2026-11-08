@@ -40,7 +40,7 @@ export default function TicketsPage() {
       <section className="shell pt-14 pb-24 sm:pt-16 sm:pb-32">
         <div className="grid gap-6 lg:grid-cols-2">
           {TICKETS.tiers.map((tier) => (
-            <Reveal key={tier.id} delay={tier.highlight ? 90 : 0} className="h-full">
+            <Reveal key={tier.id} delay={tier.highlight ? 45 : 0} className="h-full">
             <article
               className="lux-card flex h-full flex-col overflow-hidden p-7 sm:p-9"
               style={

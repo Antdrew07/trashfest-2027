@@ -253,13 +253,13 @@ export function Sponsors({ headless = false }: { headless?: boolean } = {}) {
         </Reveal>
 
         {/* The $15,000 exclusive gets the full width. It is the headline ask. */}
-        <Reveal delay={60}>
+        <Reveal delay={30}>
           <FeatureTier tier={stage} program="Festival" className="mt-6" />
         </Reveal>
 
         <div className="mt-5 grid gap-5 lg:grid-cols-2">
           {[elite, diamond].map((t, i) => (
-            <Reveal key={t.id} delay={60 + i * 80} className="h-full">
+            <Reveal key={t.id} delay={30 + i * 40} className="h-full">
               <TierCard tier={t} program="Festival" prominent />
             </Reveal>
           ))}
@@ -267,7 +267,7 @@ export function Sponsors({ headless = false }: { headless?: boolean } = {}) {
 
         <div className="mt-5 grid gap-5 md:grid-cols-3">
           {rest.map((t, i) => (
-            <Reveal key={t.id} delay={i * 80} className="h-full">
+            <Reveal key={t.id} delay={i * 40} className="h-full">
               <TierCard tier={t} program="Festival" />
             </Reveal>
           ))}
@@ -287,7 +287,7 @@ export function Sponsors({ headless = false }: { headless?: boolean } = {}) {
 
         <div className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {COOKOFF_SPONSOR_TIERS.map((t, i) => (
-            <Reveal key={t.id} delay={i * 70} className="h-full">
+            <Reveal key={t.id} delay={i * 35} className="h-full">
               <TierCard
                 tier={t}
                 program="Cookoff"
