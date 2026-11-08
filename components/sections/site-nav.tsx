@@ -60,19 +60,27 @@ export function SiteNav() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <nav className="shell flex items-center justify-between gap-6 py-3">
+      <nav className="shell flex items-center justify-between gap-3 py-3 sm:gap-6">
         {/* At the top of the page the hero lockup sits directly below this
             bar, so showing the wordmark here too prints the brand twice. It
-            fades in only once the hero has scrolled away. */}
+            fades in only once the hero has scrolled away.
+
+            It collapses to zero width while hidden — opacity-0 alone still
+            reserved ~154px of the bar, which on a phone shoved the menu
+            button clean off the right edge. body has overflow-x:clip, so
+            that was silently cropped rather than showing as page overflow. */}
         <Link
           href="/"
           aria-label={`${EVENT.name} home`}
           aria-hidden={!scrolled}
           tabIndex={scrolled ? 0 : -1}
-          // py-1 takes the logo's own hit area from 36px to 44px. The bar's
-          // height is set by the taller ticket button, so nothing moves.
-          className={`flex shrink-0 items-center py-1 transition-opacity duration-300 ${
-            scrolled ? "opacity-100" : "pointer-events-none opacity-0"
+          // Pads the logo's hit area out to 44px against each breakpoint's
+          // wordmark height (28px on a phone, 36px above). The bar's height
+          // is set by the taller ticket button, so nothing moves.
+          className={`flex shrink-0 items-center py-2 transition-opacity duration-300 sm:py-1 ${
+            scrolled
+              ? "opacity-100"
+              : "pointer-events-none w-0 overflow-hidden opacity-0"
           }`}
         >
           <Image
@@ -81,7 +89,7 @@ export function SiteNav() {
             width={992}
             height={232}
             priority
-            className="h-auto max-h-9 w-auto"
+            className="h-auto max-h-7 w-auto sm:max-h-9"
           />
         </Link>
 
@@ -101,7 +109,7 @@ export function SiteNav() {
           ))}
         </ul>
 
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           {/* whitespace-nowrap, or "Get Tickets" breaks across two lines on a
               narrow phone and the button swells to half the bar. */}
           <Link
