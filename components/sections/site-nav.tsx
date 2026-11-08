@@ -115,7 +115,7 @@ export function SiteNav() {
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-label={open ? "Close menu" : "Open menu"}
-            className="flex h-10 w-10 items-center justify-center rounded-[3px] border border-bone/25 text-bone lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-[3px] border border-bone/25 text-bone lg:hidden"
           >
             <span aria-hidden="true">{open ? "✕" : "☰"}</span>
           </button>

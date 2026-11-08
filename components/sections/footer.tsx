@@ -63,7 +63,7 @@ export function Footer() {
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    className="-my-0.5 block py-2.5 text-sm text-muted transition-colors hover:text-bone"
+                    className="-my-1 block py-3 text-sm text-muted transition-colors hover:text-bone"
                   >
                     {l.label}
                   </a>
@@ -78,7 +78,7 @@ export function Footer() {
             </h3>
             <a
               href={`mailto:${EVENT.contactEmail}`}
-              className="mt-3 block py-2.5 text-sm break-all text-muted transition-colors hover:text-bone"
+              className="mt-2.5 block py-3 text-sm break-all text-muted transition-colors hover:text-bone"
             >
               {EVENT.contactEmail}
             </a>
