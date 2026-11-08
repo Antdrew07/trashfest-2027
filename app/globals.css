@@ -462,6 +462,34 @@ section[id] { scroll-margin-top: 9rem; }
   transition: transform 0.65s cubic-bezier(0.22, 0.8, 0.3, 1);
 }
 
+/*
+ * Glass variant, for a card sitting on photography worth looking at.
+ *
+ * The blur does the legibility work, not the opacity. A simple dark wash
+ * heavy enough to read against would hide the picture anyway; blurring the
+ * backdrop flattens the busy detail under the text while the colour, the
+ * light and the big shapes still come through.
+ *
+ * backdrop-filter is not universal, so the tint alone has to be enough on
+ * its own — hence a real alpha floor rather than near-transparent.
+ */
+.lux-card.glass {
+  background:
+    radial-gradient(130% 100% at 0% 0%, color-mix(in srgb, var(--edge) 16%, transparent) 0%, transparent 55%),
+    linear-gradient(170deg, rgba(28, 15, 10, 0.62) 0%, rgba(11, 9, 8, 0.74) 70%);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  backdrop-filter: blur(16px) saturate(1.15);
+}
+
+/* Where there is no backdrop-filter, lean on the tint instead. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .lux-card.glass {
+    background:
+      radial-gradient(130% 100% at 0% 0%, color-mix(in srgb, var(--edge) 16%, transparent) 0%, transparent 55%),
+      linear-gradient(170deg, rgba(28, 15, 10, 0.88) 0%, rgba(11, 9, 8, 0.93) 70%);
+  }
+}
+
 /* ─── Tier emblem ─────────────────────────────────────────────────────────── */
 
 /*

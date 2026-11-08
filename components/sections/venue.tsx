@@ -70,25 +70,19 @@ export function Venue() {
     <section
       id="venue"
       ref={sectionRef}
-      className="relative isolate flex flex-col overflow-hidden bg-char sm:min-h-[34rem] sm:items-center sm:justify-center lg:min-h-[40rem]"
+      className="relative isolate flex min-h-[42rem] items-end overflow-hidden bg-char sm:min-h-[34rem] sm:items-center lg:min-h-[40rem]"
     >
       {/*
-        One plate, two layouts.
+        Full-bleed plate at every size, with the card floating on it as
+        frosted glass rather than covering it.
 
-        On a phone it is a banner in normal flow with the clip's own 16:9
-        shape, so the whole drone shot is visible — square, courthouse,
-        storefronts. As a full-bleed backdrop it could not work: a 390x760
-        viewport against a 16:9 frame is height-constrained, so the image is
-        cropped horizontally and object-position has no vertical effect at
-        all. The only part on show was the top of the frame, which is sky.
-
-        From sm up there is room beside the card, so it goes back to being an
-        absolutely positioned backdrop.
+        Worth knowing for the framing: on a tall phone viewport a 16:9 frame
+        is height-constrained, so object-cover crops it horizontally and the
+        vertical object-position does nothing. The whole frame is on show top
+        to bottom — sky at the top, the square and storefronts lower down,
+        which is where the card sits and reads them through the blur.
       */}
-      <div
-        className="relative aspect-[16/9] w-full sm:absolute sm:inset-0 sm:aspect-auto"
-        aria-hidden="true"
-      >
+      <div className="absolute inset-0" aria-hidden="true">
         <Image
           src="/photo/aerial-poster.webp"
           alt=""
@@ -112,12 +106,13 @@ export function Venue() {
           </video>
         )}
 
-        {/* Phone: just enough fade at the edges to seat the banner. */}
+        {/* Phone: clear through the middle so the square reads, darker top
+            and bottom to seat the section. */}
         <div
           className="absolute inset-0 sm:hidden"
           style={{
             background:
-              "linear-gradient(180deg, rgba(11,9,8,0.5) 0%, transparent 22%, transparent 68%, #0B0908 100%)",
+              "linear-gradient(180deg, rgba(11,9,8,0.72) 0%, rgba(11,9,8,0.08) 24%, rgba(11,9,8,0.08) 66%, rgba(11,9,8,0.55) 100%)",
           }}
         />
 
@@ -126,23 +121,23 @@ export function Venue() {
           className="absolute inset-0 hidden sm:block"
           style={{
             background:
-              "linear-gradient(90deg, rgba(11,9,8,0.8) 0%, rgba(11,9,8,0.55) 44%, rgba(11,9,8,0.12) 78%, rgba(11,9,8,0.35) 100%)",
+              "linear-gradient(90deg, rgba(11,9,8,0.34) 0%, rgba(11,9,8,0.2) 44%, rgba(11,9,8,0.04) 78%, rgba(11,9,8,0.24) 100%)",
           }}
         />
         <div
           className="absolute inset-0 hidden sm:block"
           style={{
             background:
-              "linear-gradient(180deg, #0B0908 0%, rgba(11,9,8,0.1) 18%, rgba(11,9,8,0.1) 76%, #0B0908 100%)",
+              "linear-gradient(180deg, rgba(11,9,8,0.85) 0%, rgba(11,9,8,0.06) 16%, rgba(11,9,8,0.06) 78%, rgba(11,9,8,0.9) 100%)",
           }}
         />
         <div className="absolute inset-0 bg-[url('/textures/noise.svg')] bg-[length:200px_200px] opacity-[0.05]" />
       </div>
 
       {/* Card. Pulled up over the banner's lower edge on a phone. */}
-      <div className="shell relative z-10 -mt-10 w-full pb-14 sm:mt-0 sm:py-20 lg:py-24">
+      <div className="shell relative z-10 w-full pt-40 pb-12 sm:pt-20 sm:pb-20 lg:py-24">
         <article
-          className="lux-card max-w-xl p-5 backdrop-blur-[3px] sm:p-9"
+          className="lux-card glass max-w-xl p-5 sm:p-9"
           style={{ "--edge": "var(--gold)" } as React.CSSProperties}
         >
           <p className="eyebrow flex items-center gap-2">
